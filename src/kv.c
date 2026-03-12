@@ -1,4 +1,4 @@
-#include <KV.h>
+#include <kv.h>
 
 kv_t *kv_init(size_t capacity) {
 	if (capacity == 0) return NULL;
