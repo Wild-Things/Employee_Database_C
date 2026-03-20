@@ -7,11 +7,11 @@ int main() {
 
 	printf("capacity = %ld\n", table->capacity);
 
-	kv_put(table, "hehe", "haha");
-	kv_put(table, "hehe", "hoho");
-	kv_put(table, "lala", "hoho");
-	kv_put(table, "color", "red");
-	kv_put(table, "color", "blue");
+//	kv_put(table, "hehe", "haha");
+//	kv_put(table, "hehe", "hoho");
+//	kv_put(table, "lala", "hoho");
+//	kv_put(table, "color", "red");
+//	kv_put(table, "color", "blue");
 	
 	for (int i = 0; i < table->capacity; i++) {
 		if (table->entries[i].key) {
