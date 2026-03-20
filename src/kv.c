@@ -18,7 +18,8 @@ size_t hash(const char *val, int capacity) {
 		val++;
 	}
 
-	return hash % capacity;
+	printf("%ld\n", (hash % (capacity-1)));
+	return hash % (capacity-1);
 }
 
 // fn kv_put
@@ -31,15 +32,17 @@ size_t hash(const char *val, int capacity) {
 
 int kv_put(kv_t *db, const char *key, const char *value) {
 
-	if (!db || !key || !value) return -1;
+	if (!db || !key || !value) {
+		return -1;
+	}
 
 	size_t idx = hash(key, db->capacity);	
 
-	for (int i = 0; i < (db->capacity-1); i++) {
+	for (int i = 0; i < db->capacity-1; i++) {
 		
 		int real_idx = (idx + 1) % db->capacity;
 		kv_entry_t *entry = &db->entries[real_idx];
-	
+
 		// entry was found, it was occupied, and
 		// the key matches	
 		if (entry->key &&
@@ -53,7 +56,8 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 		
 		// Entry was not found, or entry was 
 		// tombstoned from a delete
-		if (!entry->key || entry->key == (void*)TOMBSTONE) {
+		if (!entry->key || 
+			entry->key == (void*)TOMBSTONE) {
 			char *newval = strdup(value);
 			char *newkey = strdup(key);
 			if (!newval || !newkey) { 
@@ -72,6 +76,12 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 	return -2;
 }
 
+// fn kv_get
+// params:
+//  - db: a pointer to the database memory address
+//  - key: a pointer to the key memory address
+// Returns the value of a key value pair, 
+// otherwise return null on error
 char *kv_get(kv_t *db, const char *key) {
 
 	// if there are missing arguments,
@@ -83,7 +93,7 @@ char *kv_get(kv_t *db, const char *key) {
 	// hash a key
 	size_t idx = hash(key, db->capacity);
 
-	for (int i = 0; i < (db->capacity-1); i++) {
+	for (int i = 0; i < db->capacity-1; i++) {
 		
 		int real_idx = (idx + 1) % db->capacity;
 

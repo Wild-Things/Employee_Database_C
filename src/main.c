@@ -2,20 +2,20 @@
 #include <kv.h>
 
 int main() {
-	kv_t *table = kv_init(1024);
+	kv_t *table = kv_init(32);
 	printf("%p\n", table);
 
 	printf("capacity = %ld\n", table->capacity);
 
-	kv_put(table, "hehe", "haha");
-	kv_put(table, "hehe", "homegalul");
-	kv_put(table, "lala", "hoho");
-	kv_put(table, "color", "red");
-	kv_put(table, "color", "blue");
+	kv_put(table, "fruit", "apple");
+	kv_put(table, "veggie", "carrot");
+	kv_put(table, "grain", "wheat");
+	kv_put(table, "protein", "egg");
 
-	char *val = kv_get(table, "hehe");
-	char *val2 = kv_get(table, "lala");
-	char *val3 = kv_get(table, "nope.jpg");
+	char *val1 = kv_get(table, "fruit");
+	char *val2 = kv_get(table, "veggie");
+	char *val3 = kv_get(table, "grain");
+	char *val4 = kv_get(table, "protein");
 
 	for (int i = 0; i < table->capacity; i++) {
 		if (table->entries[i].key) {
@@ -26,6 +26,6 @@ int main() {
 		}
 	}
 
-	printf("%s, %s, %s\n", val, val2, val3);
+	printf("%s, %s, %s, %s\n", val1, val2, val3, val4);
 
 }
