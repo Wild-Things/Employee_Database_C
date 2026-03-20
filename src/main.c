@@ -2,7 +2,7 @@
 #include <kv.h>
 
 int main() {
-	kv_t *table = kv_init(32);
+	kv_t *table = kv_init(16);
 	printf("%p\n", table);
 
 	printf("capacity = %ld\n", table->capacity);
@@ -25,7 +25,16 @@ int main() {
 			table->entries[i].value);
 		}
 	}
+	printf("\n");
+	printf("%s\n%s\n%s\n%s\n\n", val1, val2, val3, val4);
 
-	printf("%s, %s, %s, %s\n", val1, val2, val3, val4);
+	int fruit = hash_test("fruit", 16);
+	int veggie = hash_test("veggie", 16);
+	int grain = hash_test("grain", 16);
+	int protein = hash_test("protein", 16);
 
+	printf("Fruit: %d\n\n", fruit);
+	printf("Veggie: %d\n\n", veggie);
+	printf("Grain: %d\n\n", grain);
+	printf("Protein: %d\n\n", protein);
 }

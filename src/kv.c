@@ -7,18 +7,18 @@
 // params:
 // - val: a string to provide for the hash
 // - capacity: integer for modulus return
-size_t hash(const char *val, int capacity) {
+size_t hash(const char *val, int capacity, char *func) {
 	size_t hash = 0x8021180211802118;
-
+	char *val_in = strdup(val);
 	while(*val) {
 		hash ^= *val;
 		hash = hash << 8;
-		hash += *val;
+		hash = hash / (*val+1);
 
 		val++;
 	}
 
-	printf("%ld\n", (hash % (capacity)));
+	printf("hash result (%s - %s): %ld\n", func, val_in, (hash % capacity));
 	return hash % (capacity);
 }
 
@@ -36,24 +36,12 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 		return -1;
 	}
 
-	size_t idx = hash(key, db->capacity);
+	size_t idx = hash(key, db->capacity, "kv_put");
 
-	for (int i = 0; i < db->capacity-1; i++) {
+	for (int i = 0; i < db->capacity - 1; i++) {
 		
 		int real_idx = (idx + 1) % db->capacity;
 		kv_entry_t *entry = &db->entries[real_idx];
-
-		// if something exists and the key doesn't match,
-		// keep walking until a tombstone or empty
-		// space is found
-
-		if (entry->key && 
-			strcmp(entry->key, key)) {
-			do {
-				entry = &db->entries[real_idx + 1];
-			} while (entry->key ||
-					 entry->key == TOMBSTONE);
-		}
 
 		// entry was found, it was occupied, and
 		// the key matches, update entry
@@ -103,7 +91,7 @@ char *kv_get(kv_t *db, const char *key) {
 	}
 
 	// hash a key
-	size_t idx = hash(key, db->capacity);
+	size_t idx = hash(key, db->capacity, "kv_get");
 
 	for (int i = 0; i < db->capacity-1; i++) {
 		
@@ -155,4 +143,24 @@ kv_t *kv_init(size_t capacity) {
 	}
 
 	return table;
+}
+
+size_t hash_test(const char *val, int capacity) {
+	size_t hash = 0x8021180211802118;
+	
+	while(*val) {
+		
+		//printf("Cycle %d\n", i);
+		//printf("Starting values: %ld, %d\n\n", hash, *val);
+		hash ^= *val;
+		//printf("Hash XOR val: %ld, %d\n\n", hash, *val);
+		hash = hash << 8;
+		//printf("Hash bitshift 8: %ld, %d\n\n", hash, *val);
+		hash = hash / (*val+1);
+		//printf("Hash += val: %ld, %d\n\n", hash, *val);
+		
+		//printf("======================\n");
+		val++;
+	}
+	return hash % capacity;
 }
