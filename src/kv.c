@@ -36,8 +36,7 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 
 	for (int i = 0; i < (db->capacity-1); i++) {
 		
-		size_t real_idx = (idx + 1) % db->capacity;
-		printf("%ld", real_idx);
+		int real_idx = (idx + 1) % db->capacity;
 		kv_entry_t *entry = &db->entries[real_idx];
 		
 		if (entry->key &&
@@ -46,7 +45,7 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 			char *newval = strdup(value);
 			if (!newval) return -1;
 			entry->value = newval;
-			return (int)real_idx;
+			return real_idx;
 		}
 
 		if (!entry->key || entry->key == (void*)TOMBSTONE) {
@@ -60,7 +59,7 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 			entry->value = newval;
 			entry->key = newkey;
 			db->count++;
-			return (int)real_idx;
+			return real_idx;
 		}	
 	}
 	// if we get to the end, the database is occupied and
