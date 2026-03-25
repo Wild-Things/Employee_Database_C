@@ -41,7 +41,7 @@ int kv_put(kv_t *db, const char *key, const char *value) {
 		return -1;
 	}
 
-	size_t idx = hash(key, db->capacity, "kv_put");
+	size_t idx = hash(key, db->capacity);
 
 	for (int i = 0; i < db->capacity - 1; i++) {
 		
@@ -109,7 +109,7 @@ char *kv_get(kv_t *db, const char *key) {
 	}
 
 	// hash a key
-	size_t idx = hash(key, db->capacity, "kv_get");
+	size_t idx = hash(key, db->capacity);
 
 	for (int i = 0; i < db->capacity-1; i++) {
 		
@@ -146,7 +146,7 @@ int kv_delete(kv_t *db, const char *key) {
 	if (!db || !key) return -1;
 
 	// Run the hash algorithm
-	size_t idx = hash(key, db->capacity, "kv_delete");
+	size_t idx = hash(key, db->capacity);
 
 	// Iterate over the whole database
 	for (int i = 0; i <db->capacity -1; i++) {
