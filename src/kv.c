@@ -149,7 +149,7 @@ int kv_delete(kv_t *db, const char *key) {
 		// AND the key is not a tombstone
 		// AND the keys are the same
 		if (entry->key 
-			&& entry->key != TOMBSTONE 
+			&& entry->key != (void *)TOMBSTONE 
 			&& !strcmp(entry->key, key)) {
 
 				// Free the memory for the entry key
@@ -163,7 +163,7 @@ int kv_delete(kv_t *db, const char *key) {
 				db->count--;
 
 				// Change the entry's key to tombstone
-				entry->key = TOMBSTONE;
+				entry->key = (void *)TOMBSTONE;
 				// Change the entry's value to NULL
 				entry->value = NULL;
 
