@@ -200,7 +200,7 @@ int kv_delete(kv_t *db, const char *key) {
 // - db: the pointer to the database
 // returns: 0 on succcess, or -1
 // on error
-int kv_free(kv_t *db) {
+void kv_free(kv_t *db) {
 
 	// if no database is provided, ERROR return -1
 	if (!db) return -1;
