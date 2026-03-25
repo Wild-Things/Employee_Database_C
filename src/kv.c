@@ -9,7 +9,7 @@
 // - capacity: integer for modulus return
 // - func: name of the function calling the hash
 // returns: hash % capacity size_t
-size_t hash(const char *val, int capacity, char *func) {
+size_t hash(const char *val, int capacity) {
 	size_t hash = 0x8021180211802118;
 	
 	// While there is still information at the
