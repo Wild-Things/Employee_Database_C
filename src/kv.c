@@ -167,8 +167,8 @@ int kv_delete(kv_t *db, const char *key) {
 				// Change the entry's value to NULL
 				entry->value = NULL;
 
-				// Return the index of the entry
-				return real_idx;
+				// Return 0 indicating success
+				return 0;
 			}
 	}
 
